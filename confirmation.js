@@ -1,0 +1,9 @@
+import { subscribeConfirmationSettings } from './firebase-service.js';
+const type=document.body.dataset.confirmationType;
+const defaults={
+ booking:{eyebrow:'Request received',title:'Thank you. Your request is with the team.',message:"FAUSTINA'S SPARKLY SERVICES will check availability and contact you to confirm the final details and payment method.",next:'We normally respond within one working day. Please keep your booking reference handy.'},
+ application:{eyebrow:'Application received',title:'Thank you for applying to join our team.',message:'Your application has been sent securely to the recruitment team for review.',next:'Shortlisted applicants will be contacted using the email address or phone number supplied.'}
+};
+const detail=type==='booking'?JSON.parse(sessionStorage.getItem('fab-booking-confirmation')||'{}'):JSON.parse(sessionStorage.getItem('fab-application-confirmation')||'{}');
+function apply(settings){const copy={...defaults[type],...(settings?.[type]||{})};document.querySelector('[data-confirm-eyebrow]').textContent=copy.eyebrow;document.querySelector('[data-confirm-title]').textContent=copy.title;document.querySelector('[data-confirm-message]').textContent=copy.message;document.querySelector('[data-confirm-next]').textContent=copy.next;const grid=document.querySelector('[data-confirm-details]');const rows=type==='booking'?[['Reference',detail.reference],['Name',detail.name],['Service',detail.service],['Date',detail.date],['Preferred time',detail.time],['Confirmation email',detail.email]]:[['Applicant',detail.name],['Role',detail.role],['Email',detail.email]];grid.innerHTML=rows.filter(([,v])=>v).map(([k,v])=>`<div><span>${k}</span><strong>${String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</strong></div>`).join('');if(!grid.innerHTML)grid.innerHTML='<p>Your submission was received successfully.</p>';}
+apply(null);subscribeConfirmationSettings(apply).catch(()=>{});

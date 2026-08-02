@@ -1,0 +1,14 @@
+START HERE
+
+This build uses a booking-request flow. Customers do not pay on the website.
+
+1. Open config.js and verify business details, prices, service areas and Firebase settings.
+2. In Firebase, enable Firestore and Email/Password Authentication.
+3. Create an admin account and an admins/{uid} document with active: true.
+4. Deploy firestore.rules and firestore.indexes.json.
+5. In the admin dashboard, publish availability separately for each operating region.
+6. Optionally deploy the Firestore-triggered email function after setting SMTP_USER and SMTP_PASS.
+7. Enable Firebase App Check before public launch.
+8. Replace images and remove any claims the business cannot evidence.
+
+Customer promise: a request is acknowledged immediately; availability, final price and payment instructions are confirmed within one working day.
